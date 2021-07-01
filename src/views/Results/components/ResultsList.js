@@ -1,13 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import ResultsListItem from "./ResultsListItem";
 
 export default React.memo(function ResultsList({ data }) {
-  const history = useHistory();
-
-  const handleResultListClick = (resultId) => {
-    history.push(`/hero/${resultId}`);
-  };
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ export default React.memo(function Header() {
   const { onLogout, isAuthenticated } = useContext(AuthContext)
   const handleLogout = () => {
     onLogout();
-    window.localStorage.clear('token');
+
     Swal.fire(
       'Logged Out!',
       'You just logged out!',
@@ -41,7 +41,7 @@ export default React.memo(function Header() {
                 onClick={handleLogout}>Log Out</p>
               :
               <Link to='/login'>
-                <p className="nav-link"> Log In </p>
+                <p className="nav-link"> Sign In </p>
               </Link>
           }
         </li>

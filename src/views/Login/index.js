@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { useHistory } from "react-router";
+import Spinner from '../../components/Spinner';
+import AuthContext from '../../context/auth/index';
+import './style.css';
+import { Formik, Field, Form } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
 import Swal from "sweetalert2";
 
-import Spinner from '../../components/Spinner'
-import AuthContext from '../../context/auth/index'
-
-
 export default function Login() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const history = useHistory();
@@ -32,10 +32,8 @@ export default function Login() {
     checkIfUserIsAuthRef?.current()?.catch(null);
   }, []);
 
-  const handleSubmitForm = (evt) => {
-    evt.preventDefault();
-
-    onLogin()
+  const handleSubmitForm = ({ token }) => {
+    onLogin(token)
 
     Swal.fire(
       'Logged in!',
@@ -46,43 +44,100 @@ export default function Login() {
     history.push("/");
   }
 
-
   if (isLoading) {
     return <Spinner />
   }
 
   return (
-    <div className="flex items-center justify-center flex-col h-screen">
+    <div className="content">
       <img
         style={{ width: "10rem" }}
         alt="super-hero"
         src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Placeholder_couple_superhero.png"
       />
-      <h2 className="text-sm mt-3">Iniciar sesión</h2>
-      <form onSubmit={handleSubmitForm} className="flex flex-col mt-3">
-        <label className="flex-col flex text-sm text-gray-500 my-2">
-          Correo Electronico
-          <input
-            onChange={({ target: { value } }) => setName(value)}
-            className="px-2 py-1 text-gray-700 text-base mt-1 order border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent w-56 shadow-sm"
-            type="email"
-          />
-        </label>
-        <label className="flex-col flex text-sm text-gray-500">
-          Contraseña
-          <input
-            onChange={({ target: { value } }) => setEmail(value)}
-            className="px-2 py-1 text-gray-700 text-base mt-1  order border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent w-56 shadow-sm"
-            type="password"
-          />
-        </label>
-        <button
-          className="bg-blue-600 hover:bg-blue-900 rounded-sm mt-4 px-3 h-8 text-white text-sm cursor-pointer"
-          type="submit"
-        >
-          Acceder
-        </button>
-      </form>
+
+      <Formik
+
+        initialValues={{
+          email: '',
+          password: ''
+        }}
+
+        validationSchema={
+          Yup.object({
+            email: Yup.string()
+              .email('Invalid email adress')
+              .required('Required')
+              .oneOf(['challenge@alkemy.org'], 'Invalid email'),
+            password: Yup.string()
+              .required('Required')
+              .oneOf(['react'], 'Invalid password'),
+          })
+        }
+
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          setIsLoading(true)
+          axios.post(`http://challenge-react.alkemy.org/`, {
+            email: 'challenge@alkemy.org',
+            password: 'react'
+          })
+            .then(res => {
+              if (res.status === 200) {
+                handleSubmitForm(res.data)
+              }
+            }).catch(error => {
+              console.log('ERROR:' + error)
+              setIsLoading(false)
+            })
+          resetForm();
+          setSubmitting(false)
+        }}
+      >
+        {({ errors, touched }) => (
+          <Form className='form form-signin' >
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <div className='labelInput'>
+              <label htmlFor="email" className="alkemy-form-label">Email</label>
+              <Field
+                type="email"
+                name='email'
+                className="alkemy-form-control"
+                id="email"
+                placeholder="Type your email"
+              />
+
+              {errors.email && touched.email ? (
+                <div>{errors.email}</div>
+              ) : null}
+
+            </div>
+
+            <div className='labelInput'>
+              <label htmlFor="password" className="alkemy-form-label">Password</label>
+              <Field
+                type="password"
+                name='password'
+                className="alkemy-form-control"
+                id="password"
+                placeholder="Type your password"
+              />
+
+              {errors.password && touched.password ? (
+                <div>{errors.password}</div>
+              ) : null}
+
+            </div>
+
+            <button
+              type="submit"
+              className="alkemy-btn-primary"
+            >
+              Sign In
+            </button>
+
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }

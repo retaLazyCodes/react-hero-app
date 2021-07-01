@@ -1,11 +1,14 @@
 import './App.css';
 import Routes from './routes';
 import AuthProvider from './context/auth/Provider'
+import SuperHeroProvider from './context/superhero/Provider'
 
 function App() {
   return (
     <AuthProvider>
-      <Routes />
+      <SuperHeroProvider>
+        <Routes />
+      </SuperHeroProvider>
     </AuthProvider>
   )
 
