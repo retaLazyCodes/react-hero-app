@@ -82,7 +82,7 @@ export default function Login() {
             password: 'react'
           })
             .then(res => {
-              if (res.status === 200) {
+              if (res.status === 200 || res.status === 201) {
                 handleSubmitForm(res.data)
               }
             }).catch(error => {
