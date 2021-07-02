@@ -65,10 +65,8 @@ export default function SuperHeroProvider({ children }) {
         const isRepeated = () => {
             const res = myHeroes.map(hero => {
                 if (hero.id === newHero.id) {
-                    console.log('REPETIDO');
                     return true;
                 } else {
-                    console.log('TODO BIEN');
                     return false;
                 }
             })

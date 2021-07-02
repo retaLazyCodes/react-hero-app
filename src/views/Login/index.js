@@ -77,7 +77,7 @@ export default function Login() {
 
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setIsLoading(true)
-          axios.post(`http://challenge-react.alkemy.org/`, {
+          axios.post(`https://jsonplaceholder.typicode.com/posts`, {
             email: 'challenge@alkemy.org',
             password: 'react'
           })
@@ -95,7 +95,7 @@ export default function Login() {
       >
         {({ errors, touched }) => (
           <Form className='form form-signin' >
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
             <div className='labelInput'>
               <label htmlFor="email" className="alkemy-form-label">Email</label>
               <Field
