@@ -1,6 +1,6 @@
 import React from "react";
 
-export default React.memo(function Bio({ bio, bioWork, appearance, powerStats }) {
+export default React.memo(function Bio({ bio, bioWork, appearance }) {
   return (
     <div>
       <div>

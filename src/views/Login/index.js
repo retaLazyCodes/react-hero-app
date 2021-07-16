@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import Spinner from '../../components/Spinner';
 import AuthContext from '../../context/auth/index';
+import {Error} from './Error'
 import './style.css';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
@@ -14,23 +15,13 @@ export default function Login() {
   const history = useHistory();
   const { isAuthenticated, onLogin } = useContext(AuthContext);
 
-  const checkIfUserIsAuthRef = useRef();
-
-
-  const checkIfUserIsAuth = () => {
+  useEffect(() => {
     if (isAuthenticated()) {
-      console.log(isAuthenticated())
       history.push("/search");
     } else {
       setIsLoading(false);
     }
-  };
-
-  checkIfUserIsAuthRef.current = checkIfUserIsAuth;
-
-  useEffect(() => {
-    checkIfUserIsAuthRef?.current()?.catch(null);
-  }, []);
+  }, [isAuthenticated]);
 
   const handleSubmitForm = ({ token }) => {
     onLogin(token)
@@ -77,7 +68,7 @@ export default function Login() {
 
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setIsLoading(true)
-          axios.post(`https://jsonplaceholder.typicode.com/posts`, {
+          axios.post(`http://challenge-react.alkemy.org/`, {
             email: 'challenge@alkemy.org',
             password: 'react'
           })
@@ -107,7 +98,7 @@ export default function Login() {
               />
 
               {errors.email && touched.email ? (
-                <div>{errors.email}</div>
+                <Error message={errors.email}/>
               ) : null}
 
             </div>
@@ -123,7 +114,7 @@ export default function Login() {
               />
 
               {errors.password && touched.password ? (
-                <div>{errors.password}</div>
+                <Error message={errors.password}/>
               ) : null}
 
             </div>
