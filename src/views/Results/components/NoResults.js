@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
-import Swal from "sweetalert2";
+import AlertService from '../../../components/alertService/AlertService'
 
 export default React.memo(function NoResults() {
 
   useEffect(() => {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Alert',
-      text: 'No results found',
-    })
+    AlertService.error('Alert','No results found')
   }, [])
 
   return (
     <div>
-      <p>{`No se han encontrado resultados`}</p>
+      <p style={{fontSize: '1.4rem'}}>{`No se han encontrado resultados`}</p>
     </div>
   );
 });

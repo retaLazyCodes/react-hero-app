@@ -2,12 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import Spinner from '../../components/Spinner';
 import AuthContext from '../../context/auth/index';
+import AlertService from '../../components/alertService/AlertService'
 import {Error} from './Error'
 import './style.css';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import Swal from "sweetalert2";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,13 +25,7 @@ export default function Login() {
 
   const handleSubmitForm = ({ token }) => {
     onLogin(token)
-
-    Swal.fire(
-      'Logged in!',
-      'You just logged in!',
-      'success'
-    )
-
+    AlertService.success('Logged in!', 'You just logged in!')
     history.push("/");
   }
 

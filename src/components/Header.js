@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
+import AlertService from './alertService/AlertService'
 import AuthContext from '../context/auth/index'
 
 export default React.memo(function Header() {
@@ -10,12 +10,7 @@ export default React.memo(function Header() {
   const { onLogout, isAuthenticated } = useContext(AuthContext)
   const handleLogout = () => {
     onLogout();
-
-    Swal.fire(
-      'Logged Out!',
-      'You just logged out!',
-      'success'
-    )
+    AlertService.success('Logged Out!', 'You just logged out!')
     history.push("/login");
   }
 

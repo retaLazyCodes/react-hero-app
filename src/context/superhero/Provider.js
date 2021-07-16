@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
 import SuperHeroContext from "./index";
-import Swal from "sweetalert2";
+import AlertService from '../../components/alertService/AlertService'
 
 
 const apiCall = axios.create({
@@ -21,7 +21,6 @@ export default function SuperHeroProvider({ children }) {
         try {
             setIsSearching(true);
             setError();
-            // setResults([]);
 
             const { data } = await apiCall.get(`/search/${searchText}`);
 
@@ -75,65 +74,25 @@ export default function SuperHeroProvider({ children }) {
             return result;
         }
         if (isRepeated()) {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
-                icon: 'error',
-                title: 'The Hero is already on your team!'
-            })
+            AlertService.tempNotify('The Hero is already on your team!', true)
             return;
         } else {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
-                icon: 'success',
-                title: 'Added successfully!'
-            })
-
+            AlertService.tempNotify('Added successfully! ')
             return setMyHeroes([...myHeroes, newHero])
         }
     }
 
-    const handleDelete = (heroID) => {
+    const handleDelete = async (heroID) => {
 
         const filteredHeroes = myHeroes.filter(hero => {
             return hero.id !== heroID;
         })
 
-        Swal.fire({
-            icon: 'warning',
-            title: 'Are you sure?',
-            showDenyButton: true,
-            confirmButtonText: `No`,
-            denyButtonText: `Yes`,
-        }).then((result) => {
-            if (result.isDenied) {
-                setMyHeroes(filteredHeroes)
-                Swal.fire('Deleted', '', 'success')
-            } else if (result.isConfirmed) {
-                return;
-            }
-        })
+        const result = await AlertService.confirm('Delete','Are you sure?')
+        if (result) {
+            setMyHeroes(filteredHeroes)
+            AlertService.success('Deleted successfully')
+        }
     }
 
 
