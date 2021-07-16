@@ -4,7 +4,7 @@ import AlertService from '../../../components/alertService/AlertService'
 export default React.memo(function NoResults() {
 
   useEffect(() => {
-    AlertService.error('Alert','No results found')
+    AlertService.error('Oops','No results found')
   }, [])
 
   return (
