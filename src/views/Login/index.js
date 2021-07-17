@@ -17,7 +17,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuthenticated()) {
-      history.push("/search");
+      history.push("/");
     } else {
       setIsLoading(false);
     }

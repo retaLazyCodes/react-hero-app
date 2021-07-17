@@ -3,11 +3,17 @@ import SuperHeroContext from "../../context/superhero"
 import ResultsListItem from "../Results/components/ResultsListItem"
 import Spinner from "../../components/Spinner"
 import { Card, ListGroup } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 
 const Home = () => {
     const { myHeroes, isFetching } = useContext(SuperHeroContext)
 
     const teamPowerstats = [...myHeroes]
+
+    const token = window.localStorage.getItem('@superhero-token');
+    if (!token) {
+        return <Redirect to='/login' />;
+    }
 
     const calculateTeamStats = (attribute) => {
         const teamStats = teamPowerstats.reduce((prev, curHero) => {
