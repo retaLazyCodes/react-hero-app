@@ -46,7 +46,7 @@ const Home = () => {
                 }
             </div>
             <div >
-                <Card style={{ width: '18rem', margin: 'auto', fontSize: '20px' }}>
+                <Card style={{ width: '18rem', margin: 'auto', marginTop: '30px', fontSize: '20px' }}>
                     <Card.Header><h2>Powerstats</h2></Card.Header>
                     <ListGroup variant="flush">
                         <ListGroup.Item>Total Power: {power}</ListGroup.Item>
