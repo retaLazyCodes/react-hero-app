@@ -27,7 +27,7 @@ Resolución del siguiente [challenge](https://drive.google.com/file/d/1gupyWJ3i4
 
 ## view project
 
-[Heroes app](https://alkemy-heroes.netlify.app/)
+[Heroes app](https://60ff1564e90803442d82d144--alkemy-heroes.netlify.app/)
 
 ## Contact
 
