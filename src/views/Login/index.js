@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import Spinner from '../../components/Spinner';
 import AuthContext from '../../context/auth/index';
 import AlertService from '../../components/alertService/AlertService'
-import {Error} from './Error'
+import { Error } from './Error'
 import './style.css';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
@@ -62,7 +62,7 @@ export default function Login() {
 
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setIsLoading(true)
-          axios.post(`http://challenge-react.alkemy.org/`, {
+          axios.post(`https://jsonplaceholder.typicode.com/posts`, {
             email: 'challenge@alkemy.org',
             password: 'react'
           })
@@ -92,7 +92,7 @@ export default function Login() {
               />
 
               {errors.email && touched.email ? (
-                <Error message={errors.email}/>
+                <Error message={errors.email} />
               ) : null}
 
             </div>
@@ -108,7 +108,7 @@ export default function Login() {
               />
 
               {errors.password && touched.password ? (
-                <Error message={errors.password}/>
+                <Error message={errors.password} />
               ) : null}
 
             </div>
