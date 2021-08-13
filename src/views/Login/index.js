@@ -44,8 +44,8 @@ export default function Login() {
       <Formik
 
         initialValues={{
-          email: '',
-          password: ''
+          email: 'challenge@alkemy.org',
+          password: 'react'
         }}
 
         validationSchema={
@@ -89,6 +89,7 @@ export default function Login() {
                 className="alkemy-form-control"
                 id="email"
                 placeholder="Type your email"
+
               />
 
               {errors.email && touched.email ? (
